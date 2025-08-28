@@ -1,4 +1,4 @@
-use actix_web::{Responder, post};
+use actix_web::{Responder, get, post};
 
 #[get("/me")]
 pub async fn get_profile() -> impl Responder {

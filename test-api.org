@@ -1,0 +1,19 @@
+#+TITLE: TEST API
+
+* Initial
+
+#+NAME: Initial testing
+#+BEGIN_SRC http :pretty
+  POST http://localhost:8080/auth/sign-up
+  Content-Type: application/json
+
+  {
+    "email": "secret@secret.com",
+    "password":"MySecret",
+    "firstname":"David",
+    "lastname":"Hansen"
+  }
+#+END_SRC
+
+#+RESULTS: Initial testing
+: Email exists
