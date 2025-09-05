@@ -4,16 +4,19 @@
 
 #+NAME: Initial testing
 #+BEGIN_SRC http :pretty
-  POST http://localhost:8080/auth/sign-up
-  Content-Type: application/json
+    POST http://localhost:8080/auth/sign-up
+    Content-Type: application/json
 
-  {
-    "email": "secret@secret.com",
-    "password":"MySecret",
-    "firstname":"David",
-    "lastname":"Hansen"
-  }
+    {
+      "email": "david.wiktorsson@gmail.com",
+      "password":"theday",
+      "firstname":"David",
+      "lastname":"Viktorsson"
+    }
 #+END_SRC
 
 #+RESULTS: Initial testing
-: Email exists
+: {
+:   "message": "Email already exists.",
+:   "status": "error"
+: }

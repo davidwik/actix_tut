@@ -1,14 +1,15 @@
-use actix_web::{Responder, post, web};
+use actix_web::{HttpResponse, Responder, post, web};
 use serde::Deserialize;
+use serde_json::json;
 
 use crate::{AppState, db};
 
 #[derive(Deserialize, Debug)]
-struct SignUpRequest {
-    email: String,
-    password: String,
-    firstname: String,
-    lastname: String,
+pub struct SignUpRequest {
+    pub email: String,
+    pub password: String,
+    pub firstname: String,
+    pub lastname: String,
 }
 
 #[post("/auth/sign-up")]
@@ -16,10 +17,18 @@ pub async fn sign_up(state: web::Data<AppState>, data: web::Json<SignUpRequest>)
     let db = state.db.lock().await;
 
     if db::user::has_with_email(&db, &data.email).await {
-        return "Email exists".to_string();
+        return HttpResponse::UnprocessableEntity().json(json!({
+            "status": "error",
+            "message": "Email already exists."
+        }));
     }
 
-    format!("Sign Up: {:?}", data)
+    db::user::create(&db, &data).await;
+
+    HttpResponse::Created().json(json!({
+        "status": "success",
+        "message": "Account created successfully."
+    }))
 }
 
 #[post("/auth/sign-in")]
